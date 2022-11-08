@@ -1,0 +1,45 @@
+//
+//  CircleGroupView.swift
+//  DemoSwiftUi
+//
+//  Created by Raj Saija on 07/11/22.
+//
+
+import SwiftUI
+
+struct CircleGroupView: View {
+    
+    @State var ShapeColor: Color
+    @State var ShapeOpacity: Double
+    @State private var isAnimating:Bool = false
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 40)
+                .frame(width: 260, height: 260, alignment: .center)
+            Circle()
+                .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 80)
+                .frame(width: 260, height: 260, alignment: .center)
+        }
+        .blur(radius: isAnimating ? 0 : 5)
+        .opacity(isAnimating ? 1 : 0)
+        .scaleEffect(isAnimating ? 1 : 0.5)
+        .animation(.easeInOut(duration: 1), value: isAnimating)
+        .onAppear(perform: {
+            isAnimating = true
+        })
+        
+    }
+}
+
+struct CircleGroupView_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color("ColorBlue")
+                .ignoresSafeArea(.all, edges: .all)
+            
+            CircleGroupView(ShapeColor: .white, ShapeOpacity: 1.0)
+            
+        }
+    }
+}
